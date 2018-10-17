@@ -1,0 +1,49 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/views/
+    suffix: .html
+    cache: false
+  application:
+    name: zoufeng
+  #redis 相关配置
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password: zoufeng
+    pool:
+      max-active: 50
+      max-idle: 3
+      min-idle: 0
+      max-wait: 1
+    timeout: 1000
+      
+server:
+  display-name: spring-boot
+  port: 8090
+  servlet-path: /
+  session:
+    timeout: 30   
+#文件上传   
+multipart:
+  enabled: true
+  max-file-size: 50Mb
+  max-request-size: 100Mb
+
+#用---表示分段  可配置不同环境下的配置属性
+#---
+#spring:
+#  profiles:
+#    active: development
+#logging:
+#  level:
+#    root: DEBUG
+
+    
+#---
+#spring:
+#  profiles:
+#    active: production
+#logging:
+#  level:
+ #   root: WARN

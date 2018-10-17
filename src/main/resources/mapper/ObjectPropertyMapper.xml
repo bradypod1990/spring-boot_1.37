@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- <typeAliases>
+    <typeAlias alias="objectProperty" type="com.feng.model.ObjectProperty"/>
+</typeAliases> -->
+<mapper namespace="com.feng.dao.ObjectPropertyDao">
+    <resultMap id="objectProperty" type="com.feng.model.ObjectProperty"></resultMap>    
+    
+    <select id="queryObjectProperty" resultType="com.feng.model.ObjectProperty">
+        SELECT
+		    p.property_id,
+		    p.property_name,
+		    p.property_cname,
+		    p.data_type,
+		    p.data_length,
+		    m.object_name,
+		    m.object_cname,
+		    m.system_code
+		FROM
+		    t_dm_b_meta_rdbms_database_property p
+		JOIN (
+		    SELECT
+		        o.object_id,
+		        o.object_name,
+		        o.object_cname,
+		        b.system_code
+		    FROM
+		        t_dm_b_meta_rdbms_database_object o
+		    JOIN t_dm_b_meta_res_bizsystem b ON o.catalog_id = b.system_id 
+		    <where>
+		      <if test="op != null and op.systemCode != null">
+		          b.system_code  = #{op.systemCode}
+		      </if>
+		         <if test="op != null and op.objectName != null">
+                 and o.object_name  like concat('%',REPLACE(UPPER(#{op.objectName}),'_','/_'),'%') ESCAPE '/' 
+              </if>
+		    </where>
+		) m ON p.object_id = m.object_id 
+		order by m.system_code, m.object_name
+    </select>
+</mapper>
